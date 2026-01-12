@@ -1,129 +1,57 @@
-## 🔵 Section 1: The Landscape of Data 
+# **📘 Lesson Plan: Data Modeling & Schema Design (3 Hours)**
 
-*Goal: Choose the right tool for the job.*
+Module: 1.2 Data Modeling
 
-### **1.1 The Three Pillars**
+Target Audience: Adult Learners (Basic Python knowledge)
 
-| Type | The "Vibe" | Example Use Case |
-| :---- | :---- | :---- |
-| **Relational (SQL)** | Structured & Rigid | Bank accounts, Inventories. |
-| **NoSQL** | Flexible & Fast | Social media feeds, Chat logs. |
-| **Vector** | Meaning & AI | Image search, Recommendation engines. |
+Methodology: Flipped Classroom / Code-Along / Problem-Based Learning
 
-### **🛠️ Workshop: The Sorting Game**
+## **🎯 Learning Objectives**
 
-**Scenario:** You are the Lead Architect for a new startup. Which database type do you pick for these features?
+By the end of this session, learners will be able to:
 
-1. **User Profile Pictures:** (Hint: Unstructured data)  
-2. **Payment Processing:** (Hint: Must be 100% accurate)  
-3. **"Find me songs that sound like Jazz":** (Hint: Semantic similarity)
+1. **Analyze** the differences between Relational, NoSQL, and Vector databases to select the correct tool for a business problem.  
+2. **Apply** the concepts of Primary Keys and Foreign Keys to **create** a logical Entity-Relationship Diagram (ERD) using DBML.  
+3. **Evaluate** a raw, un-normalized dataset and **decompose** it into a 3rd Normal Form (3NF) schema to reduce data redundancy.
 
-**Socratic Reflection:** If NoSQL is so much faster and more flexible than SQL, why does every bank in the world still use SQL?
+## **⏱️ Agenda & Topic Prioritization**
 
-## 🔵 Section 2: Building the Blueprint 
-
-*Goal: Link data correctly using Primary and Foreign Keys.*
-
-### 2.1 The Rules of the "ID"
-
-* **Primary Key (PK):** The unique fingerprint of a row. Never null.  
-* **Foreign Key (FK):** A "tag" in Table B that points back to a PK in Table A.
-
-### **🛠️ Workshop: Car Insurance ERD**
-
-Open [dbdiagram.io](https://dbdiagram.io/) and paste the following code. Your task is to **add a new table for "Claims"** and link it to the accidents table.
-
-// Car Insurance Schema  
-Table customers {  
-  id int \[pk, increment\]  
-  name varchar  
-  address varchar  
-}
-
-Table cars {  
-  id int \[pk, increment\]  
-  make varchar  
-  model varchar  
-  customer\_id int // This is our Foreign Key  
-}
-
-// LINK: One customer owns many cars  
-Ref: cars.customer\_id \> customers.id 
-
-Table accidents {  
-  id int \[pk, increment\]  
-  date datetime  
-  location varchar  
-  car\_id int  
-}
-
-// LINK: One car can have many accidents  
-Ref: accidents.car\_id \> cars.id 
-
-**Socratic Reflection:** If we delete a Customer, what should happen to their Cars? Why does the database care?
-
-## 🔵 Section 3: Cleaning the House 
-
-*Goal: Remove "messiness" through Normalization.*
-
-### **3.1 Why Clean the Data?**
-
-When data is "messy" (un-normalized), we run into **Anomalies**:
-
-* **Update Anomaly:** If John moves house, you have to update 100 rows. If you miss one, the data is wrong.  
-* **Deletion Anomaly:** If you delete an order, you might accidentally delete the customer's info entirely.
-
-### **3.2 The 3 Stages of Cleaning**
-
-1. **1NF (First Normal Form):** No "lists" in a single cell. Every row is unique.  
-2. **2NF (Second Normal Form):** No partial dependencies. (Everything in the row must relate to the *whole* Primary Key).  
-3. **3NF (Third Normal Form):** No "third-party" dependencies. (If Attribute A depends on Attribute B, and B isn't the Key, move it to its own table).
-
-### **🛠️ Workshop: The E-Commerce Deconstruction**
-
-**The Problem:** Look at this "Flat" table. It's full of redundancy.
-
-| OrderID | LineNo | ItemID | ItemName | ItemPrice | CustomerID | CustomerName |
-| :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| 100 | 1 | 10 | iPhone | 1000 | 1 | John |
-| 100 | 2 | 20 | iPad | 500 | 1 | John |
-| 200 | 1 | 30 | Macbook | 2000 | 1 | John |
-
-**Task:** Using your logic (and dbdiagram.io), break this into **3 separate tables** to reach 3rd Normal Form (3NF).
-
-* **Step 1:** Create an Orders table. What attributes stay here? (Hint: Date, CustomerID).  
-* **Step 2:** Create an Items table. (Hint: Does ItemName depend on the OrderID or the ItemID?).  
-* **Step 3:** Create an OrderLineItems table to connect them.
-
-**Socratic Reflection:** In your final design, if John changes his name to "Jonathan," how many rows do you need to update?
-
-
-
-Below is the previous content
----
-# Lesson
-
-## Brief
-
-### Preparation
-
-Basic understanding of RDBMS tables and columns.
-
-### Lesson Overview
-
-This lesson introduces database concepts, data modeling and normalization. Learners will be able to perform data modeling and create ERD from case study. Learners will also be able to normalize database schema.
+| Time | Section | Focus | Top 3 Core Topics (Must Cover) | Optional Topics (Mention briefly or Skip) |
+| :---- | :---- | :---- | :---- | :---- |
+| **0:00 \- 0:50** | **1\. The Data Landscape** | **Analyze** | **Relational vs. Non-Relational Context:** Understanding *when* to use SQL is as important as *how*. | History of SQL, Storage engines, Vector math details. |
+| *0:50 \- 1:00* | *Break* |  |  |  |
+| **1:00 \- 1:50** | **2\. Blueprinting (ERD)** | **Create** | **ERD Construction & Keys (PK/FK):** The logic of linking tables via Foreign Keys. | Recursive relationships, Complex Many-to-Many logic. |
+| *1:50 \- 2:00* | *Break* |  |  |  |
+| **2:00 \- 2:50** | **3\. Normalization** | **Evaluate** | **Practical Normalization (1NF-3NF):** Decomposing flat spreadsheets into relational structures. | BCNF, 4NF, 5NF, Formal definitions of "Transitive Dependency". |
+| **2:50 \- 3:00** | **Wrap Up** | **Synthesize** | Q\&A, Next Steps. |  |
 
 ---
+## **🔵 Section 1: The Landscape of Data (50 Mins)**
 
-## Part 1 - Introduction to relational databases
+**Goal:** Demystify databases and establish why SQL is the standard for structured data.
 
-Conceptual knowledge, refer to slides.
+### **1.1 The Narrative**
 
----
+Welcome everyone. Since you know Python, you know how to store data in variables. But what happens when you turn the computer off? The data is gone.
 
-## Part 2 - Data modeling
+To persist data, we need a Database. But not all data is created equal.
 
-### 2.1 SQL Data Types
+* You wouldn't use a spreadsheet to store a 4K movie.  
+* You wouldn't use a video player to calculate your taxes.
+
+Today, we aren't just learning code; we are learning **Architecture**. We are going to learn how to decide *where* data lives.
+
+### **1.2 Concept: The Three Pillars**
+
+*Display this comparison table.*
+
+| Type | The "Vibe" | Best For... | Tech Examples |
+| :---- | :---- | :---- | :---- |
+| **Relational (SQL)** | **Structured & Rigid.** Think of it like a bank vault. Highly organized, strict rules. | Financials, Inventories, User Accounts. | PostgreSQL, MySQL, Snowflake |
+| **NoSQL** | **Flexible & Fast.** Think of it like a messy desk. Throw documents anywhere, find them fast. | Social Media feeds, Chat logs, IoT sensor data. | MongoDB, Cassandra |
+| **Vector** | **Semantic & AI.** Think of it like a brain association game. "King" is close to "Queen". | Image search, LLM Memory, Recommendation engines. | Pinecone, Weaviate |
+
+### **1.3 SQL Data Types**
 
 Here are the common data types, every database has its own set of data types.
 
@@ -137,80 +65,100 @@ Here are the common data types, every database has its own set of data types.
 | `DATETIME` | Date and time.             |
 | `BOOLEAN`  | True or false.             |
 
-### 2.2 Entity-relationship diagram (ERD)
 
-An entity-relationship diagram (ERD) is a visual representation of entities and their relationships in a database. ERD is a data modeling technique. It is a graphical representation of data requirements for a database.
+### **🟢 Activity 1: The Sorting Game (15 Mins)**
 
-![ERD](./assets/erd.png)
+Type: Class Discussion / Quick Poll
 
-#### 2.2.1 Entities
+Prompt: "I am the CEO of a new Startup. I have 4 features I need to build. Tell me which database type I should use and WHY."
 
-An entity is a real-world object, for example, an employee, bank account, car, etc. An entity has attributes that represent properties such as an employee has a name, age, and salary. An entity set is a collection of similar entities. For example, all employees have some common attributes.
+1. **User Profile Pictures:** 
+    <details>
+      <summary>Answer: </summary>
+      NoSQL/Object Store for the image binary, or SQL for the *file path*.
+    </details>
 
-#### 2.2.2 Relationships
+2. **Payment Processing:**  
+   <details>
+     <summary>Answer: </summary>
+     SQL. We need ACID compliance/Transactions.
+   </details>
 
-A relationship is an association among entities. For example, an employee works at a department, a car has a model, etc. A relationship set is a collection of similar relationships. For example, all employees work at some department. A relationship can have attributes. For example, the salary of an employee in a department.
+3. **"Find me songs that sound like Jazz":** 
+   <details>
+     <summary>Answer: </summary>  
+     Vector Database
+   </details>
 
-#### 2.2.3 Cardinality
+4. **A live chat for a video game:** 
+   <details>
+     <summary>Answer: </summary>
+     NoSQL. High volume, simple structure.
+   </details>
 
-Cardinality represents the number of entities in one entity set, which can be associated with the number of entities of another entity set. There are three types of cardinality:
+## **🔵 Section 2: Building the Blueprint (ERD) (50 Mins)**
 
-- One to one: One entity from entity set A can be associated with at most one entity of entity set B and vice versa.
-- One to many: One entity from entity set A can be associated with more than one entity of entity set B, but an entity from entity set B can be associated with at most one entity of entity set A.
-- Many to many: One entity from entity set A can be associated with more than one entity of entity set B and vice versa.
+**Goal:** Learn the syntax of relationships using DBML.
 
-### 2.3 ERD Tools
+### **2.1 The Narrative**
 
-Use [dbdiagram.io](https://dbdiagram.io/d) to design and create ERD. Sign in with your Google or Github account.
+Before we write SQL queries, we need a map. An Architect draws a blueprint before the construction crew lays bricks. An **ERD (Entity Relationship Diagram)** is our blueprint.
 
-`dbdiagram.io` is a free online database schema design and modeling tool. It allows you to draw ERD using a markup language called DBML (Database Markup Language). It is a simple and easy-to-use language to define and document database schemas.
+The glue that holds this blueprint together is the **ID**.
 
-### 2.4 Case Study
+### **2.2 Concept: The Keys**
 
-#### 2.4.1 Scenario 1
+1. **Primary Key (PK):** The unique social security number of a row.  
+   * *Rule:* It creates identity. If two rows have the same PK, the database explodes (throws an error).  
+2. **Foreign Key (FK):** The reference pointing to someone else's PK.  
+   * *Rule:* It creates relationships. "I belong to that person over there."
 
-Construct an ERD for a car insurance company whose customers own one or more cars each. Each car has associated with it zero to any number of recorded accidents.
+### **🟢 Activity 2.2.1: Code-Along \- Car Insurance Schema (15 Mins)**
 
-Each entity has the following attributes:
+Tools: [dbdiagram.io](https://dbdiagram.io/d)
 
-- Customer: id, name, address, phone, email
-- Car: id, make, model, year, car_plate
-- Accident: id, date, location, description, car_id
-
-Use the following DBML to create the ERD.
+Instructions: Paste the following code. Review the comments as we go.
 
 ```dbml
+// --- 1. Define the Customer ---
+// A 'Table' represents a noun (a person, place, or thing).
 Table customers {
-  id int [pk, increment]
-  name varchar
-  address varchar
-  phone varchar
-  email varchar
+  id int [pk, increment] // PRIMARY KEY: The unique ID for every customer
+  name varchar           // Their full name
+  address varchar        // Where they live
+  phone varchar          // Contact info
+  email varchar          // Contact info
 }
 
+// --- 2. Define the Car ---
+// A car cannot exist in our system without an owner.
 Table cars {
   id int [pk, increment]
-  make varchar
-  model varchar
+  make varchar           // e.g., Toyota
+  model varchar          // e.g., Corolla
   year int
   car_plate varchar
-  customer_id int
+  
+  // FOREIGN KEY: This is the critical link.
+  // It holds the ID of the customer who owns this car.
+  customer_id int 
 }
 
-Table accidents {
-  id int [pk, increment]
-  date datetime
-  location varchar
-  description text
-  car_id int
-}
+// --- 3. Define the Link (Relationship) ---
+// The '>' symbol translates to "One-to-Many".
+// Read as: "One Customer can have Many Cars"
+Ref: cars.customer_id > customers.id 
 
-Ref: cars.customer_id > customers.id // many-to-one
 
-Ref: accidents.car_id > cars.id // many-to-one
+// --- 🟢 STUDENT CHALLENGE ---
+// Task: Add an 'accidents' table below.
+// Requirements:
+// 1. Accidents have a date, location, and description.
+// 2. An accident happens to a specific CAR.
+// 3. Link the accident to the car.
 ```
 
-#### 2.4.2 Scenario 2
+### **🟢 Activity 2.2.2: School System (10 Mins)**
 
 Construct an ERD for a school system whose classes have students and teachers. Each student belongs to a single class. Each teacher may teach more than one class, and each class may have more than one teacher.
 
@@ -222,89 +170,35 @@ Each entity has the following attributes:
 
 > Write the DBML to create the ERD.
 
-#### 2.4.3 Scenario 3
+```dbml
+// Activity 2.2.2
+// Your code here
+```
 
-Construct an ERD for a company that sells movies online. The company has a website where customers can browse available movies and place orders. Each order can contain multiple movies.
 
-> List the entities and attributes. Write the DBML to create the ERD.
+## **🔵 Section 3: Normalization (Cleaning the House) (50 Mins)**
 
----
+**Goal:** Convert messy data into efficient tables using Normal Forms.
 
-## Part 3 - Normalization
+### **3.1 The Narrative**
 
-Normalization is a process of organizing the data in the database in accordance with a series of so-called _normal forms_ to remove _data redundancy_, avoid _anomalies_ and ensure _referential integrity_.
+Imagine a spreadsheet where every time you bought a coffee, the store wrote down your full home address next to the coffee price.
 
-The objective of normalization is as follows:
+If you move house, they have to find every coffee you ever bought and update your address.
 
-1. To free the database from unwanted insertions, updates, & deletion dependencies
-2. To reduce the need for refactoring the database as new types of data are introduced
-3. To make the relational model more informative to users
-4. To make the database neutral to the query statistics
+This is called an Update Anomaly.
 
-### 3.1 Data Redundancy
+Normalization is the process of splitting tables apart so we store data in exactly one place.
 
-Data redundancy is a condition created within a database or data storage technology in which the same piece of data is held in two separate places. This can mean two different fields within a single database, or two different spots in multiple software environments or platforms.
+### **3.2 Concept: The Three Normal Forms**
 
-### 3.2 Anomalies
+* **1NF (First Normal Form):** **No Lists.** You cannot have a cell with "Apple, Banana, Pear". Break them into rows.  
+* **2NF (Second Normal Form):** **The Whole Key.** (Mostly relevant for composite keys). Every column must rely on the *entire* unique ID.  
+* **3NF (Third Normal Form):** **No Pass-Throughs.** A column should not depend on another non-key column. (e.g., ItemPrice depends on the Item, not the Order).
 
-There are three types of anomalies that occur when the database is not normalized.
+### **🟢 Activity 3: The E-Commerce Deconstruction (Group Breakout \- 20 Mins)**
 
-- Insertion anomaly: Inability to insert data into the database due to absence of other data.
-- Deletion anomaly: Loss of data due to deletion of other data.
-- Update anomaly: Update inconsistency due to redundancy of data.
-
-### 3.3 Referential Integrity
-
-Referential integrity is a database concept that ensures that relationships between tables _remain consistent_. Every value of a foreign key _must be matched_ to a value of the primary key of another table.
-
-- If the primary key value does not exist, the row referencing the value in the other table cannot be inserted into the table.
-- If a value of the primary key is modified or deleted, all matching foreign key values must be modified/deleted as well.
-- It prohibits the deletion of a row in the referenced table if there are corresponding rows in the referencing table.
-
-### 3.4 Normal Forms
-
-There are six normal forms (1NF, 2NF, 3NF, BCNF, 4NF, 5NF) for database normalization.
-
-- First Normal Form (1NF)
-- Second Normal Form (2NF)
-- Third Normal Form (3NF)
-- Boyce-Codd Normal Form (BCNF)
-- Fourth Normal Form (4NF)
-- Fifth Normal Form (5NF)
-
-Here we are just going to discuss the first 3 normal forms, which are the most commonly used.
-
-#### 1NF
-
-A table is in 1NF if:
-
-- Each table cell should contain a single value
-- Each record needs to be unique
-- Each column should contain values of the same type
-
-#### 2NF
-
-A table is in 2NF if:
-
-- Must be in 1NF
-- No partial depencies (All non-key attributes must fully depend on the primary key )
-
-#### 3NF
-
-A table is in 3NF if:
-
-- Must be in 2NF
-- No transitive dependencies (Non-key attributes shouldn't depend on other non-key attributes)
-
-### Denormalized Table
-
-No normalization. Nested and redundant data is allowed.
-
-### 3.5 Case Study
-
-Let's use an example of ecommerce company with customer orders. Each customer can place multiple orders. Each order can contain multiple items.
-
-#### 3.5.1 First Normal Form (1NF)
+#### 3.2.1 First Normal Form (1NF)
 
 The `OrderDetails` table is in 1NF because each row is unique and each column has a single value.
 
@@ -331,7 +225,7 @@ To create a unique primary (composite) key, let's number the lines in each order
 
 Now we have a unique primary key, which is the combination of `OrderID` and `LineNumber`.
 
-#### 3.5.2 Second Normal Form (2NF)
+#### 3.2.2 Second Normal Form (2NF)
 
 To reach 2NF, we need to remove partial dependencies. A partial dependency is when one or more columns in a table depend on a subset of the primary key, but not on the whole primary key; it can only occur only when the _primary key is composite_.
 
@@ -357,28 +251,71 @@ To fix this, we need to split the table into two tables: `Orders` and `OrderLine
 | 300     | 1          | 10     | iPhone   | 1000      |
 | 300     | 2          | 30     | Macbook  | 2000      |
 
-#### 3.5.3 Third Normal Form (3NF)
+#### 3.2.3 Third Normal Form (3NF)
 
-Notice that `ItemID` determines `ItemName` and `ItemPrice`. This is a transitive dependency. A transitive dependency is when one or more columns in a table depend on a non-key column in that table.
+We have a messy table called `OrderLineItems`. It violates 3NF because `ItemName` and `ItemPrice` depend on `ItemID`, not on the specific order. This is a transitive dependency. A transitive dependency is when one or more columns in a table depend on a non-key column in that table.
 
-Let's break `OrderLineItems` into two tables: `OrderLineItems` and `Items`.
+**Task: Let's break `OrderLineItems` into two tables: `OrderLineItems` and `Items`.**
 
-`OrderLineItems` table:
+Using [dbdiagram.io](https://dbdiagram.io/d), learners decompose this into two clean tables: OrderLineItems and Items.
 
-| OrderID | LineNumber | ItemID |
-| ------- | ---------- | ------ |
-| 100     | 1          | 10     |
-| 100     | 2          | 20     |
-| 200     | 1          | 30     |
-| 300     | 1          | 10     |
-| 300     | 2          | 30     |
+```dbml
+// Activity 3.2.3
+// Your code here
+```
 
-`Items` table:
 
-| ItemID | ItemName | ItemPrice |
-| ------ | -------- | --------- |
-| 10     | iPhone   | 1000      |
-| 20     | iPad     | 500       |
-| 30     | Macbook  | 2000      |
+### **3.3 Synthesis & Discussion**
 
-> `Orders` table does not satisfy 3NF. What transitive dependencies are present? How would you fix this?
+* **Instructor:** "In our solution, if the price of the iPhone goes up to $1200 next year, does the old order history change?"  
+* **Learner Goal:** Realize that while Normalization is good, sometimes we *denormalize* (copy data) like sold\_price to preserve historical accuracy.
+
+## **🏁 Wrap Up (10 Mins)**
+
+1. **Review Objectives:** Did we choose the right database? Did we build an ERD? Did we normalize a table?  
+2. **Homework:** Take a screenshot of an app you use (e.g., Instagram, Spotify) and try to draw the ERD for just one screen.  
+3. **Next Session Teaser:** "Now that we have our Blueprint, next week we actually start building the house using SQL CREATE and SELECT commands."
+
+
+
+### **Solution**
+
+#### **Activity 2.2.1**
+```dbml
+Table accidents {
+  id int [pk, increment]
+  date datetime
+  location varchar
+  description text
+  
+  car_id int // FK pointing to the car
+}
+Ref: accidents.car_id > cars.id
+```
+
+#### **Activity 3.2.3**
+
+```dbml
+// 1. The "Master" List of Products
+// Information here only changes if the Product itself changes.
+Table items {
+  item_id int [pk]      // The Key
+  item_name varchar     // Depends on item_id
+  current_price int     // Depends on item_id
+}
+// 2. The Transaction List
+// Information here is about the specific event of buying.
+Table order_line_items {
+  order_id int
+  line_number int
+  
+  // Link to the item
+  item_id int 
+  
+  // NOTE: We might keep 'sold_price' here to freeze the history!
+  // This is a great discussion point for advanced learners.
+  sold_price int 
+}
+
+Ref: order_line_items.item_id > items.item_id
+```
