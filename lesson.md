@@ -270,7 +270,8 @@ Using [dbdiagram.io](https://dbdiagram.io/d), learners decompose this into two c
 ### Instructor Prompt
 
 > “Our tables are now fully normalised.
-> If the price of the iPhone increases to $1200 next year, what *should* happen to:
+> We’ve designed a system that is excellent for correctness and avoids duplication.
+> Let’s imagine a business question: If the price of the iPhone increases to $1200 next year, what *should* happen to:
 >
 > 1. last year’s order totals, and
 > 2. our ability to quickly answer questions like *‘Total revenue by product last year’*?”
@@ -279,19 +280,23 @@ Using [dbdiagram.io](https://dbdiagram.io/d), learners decompose this into two c
 
 ### Learner Goal
 
-Recognise that while normalisation ensures correctness, **real systems sometimes copy descriptive data** (denormalisation) to preserve historical accuracy and support fast analysis.
+Recognise that while **normalisation ensures correctness**, real-world systems sometimes **selectively copy descriptive data** (denormalisation) to:
+
+* Preserve historical accuracy
+* Support fast, large-scale analytical queries
 
 ---
 
-### Why This Happens in Practice
+### Why Denormalisation Happens in Practice
 
-**Normalisation stores each fact once to prevent anomalies and maintain data integrity.**
-However, normalized databases are optimized for data integrity and storage efficiency, **not for answering analytical questions quickly and at scale**.
+Normalisation stores each fact once to prevent anomalies and maintain data integrity.
 
-Business questions typically require:
+However, **normalized databases are optimized for data integrity and storage efficiency, not for answering analytical questions quickly at scale**.
+
+Business questions often require:
 
 * Aggregations (SUM, COUNT, AVG)
-* Grouping by descriptive attributes
+* Grouping by descriptive attributes (e.g., product category, brand, customer segment)
 * Large scans of historical data
 
 Fully normalised schemas require many joins, which increases query complexity and reduces performance.
@@ -302,15 +307,17 @@ Fully normalised schemas require many joins, which increases query complexity an
 
 * **Facts stay clean and numeric**
 
-  * e.g. quantity sold
+  * e.g., quantity sold, transaction totals
 
 * **Descriptive attributes may be duplicated**, such as:
 
-  * `sold_price` in order line items
-  * product category or brand
-  * customer segment or region
+  * `sold_price` in order line items (preserves historical price)
+  * Product category or brand
+  * Customer segment or region
 
-These attributes *could* be derived via joins, but are intentionally stored together.
+These attributes could be derived via joins, but are intentionally stored together for efficiency.
+
+> **Instructor note:** Clarify that `current_price` is the reference price today, while `sold_price` is the historical fact of the transaction. This resolves any confusion about price dependencies.
 
 ---
 
@@ -323,15 +330,15 @@ Denormalising descriptive data:
 * Simplifies analytical queries
 * Improves performance for reporting
 
-Because these attributes change slowly, the risk of inconsistency is manageable.
+Because these attributes **change slowly**, the risk of inconsistency is manageable.
 
 ---
 
 ### Key Takeaway
 
-> **Normalisation ensures correctness.
-> Controlled denormalisation supports historical accuracy and fast analysis.
-> Good data design matches structure to purpose.**
+> **Normalisation ensures correctness.**
+> **Controlled denormalisation supports historical accuracy and fast analysis.**
+> Good data design **matches structure to purpose**, balancing integrity and usability.
 
 ---
 
@@ -340,8 +347,6 @@ Because these attributes change slowly, the risk of inconsistency is manageable.
 1. **Review Objectives:** Did we choose the right database? Did we build an ERD? Did we normalize a table?  
 2. **Homework:** Take a screenshot of an app you use (e.g., Instagram, Spotify) and try to draw the ERD for just one screen.  
 3. **Next Session Teaser:** "Now that we have our Blueprint, next week we actually start building the house using SQL CREATE and SELECT commands."
-
-
 
 ### **Solution**
 
