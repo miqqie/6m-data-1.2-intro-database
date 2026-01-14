@@ -267,8 +267,73 @@ Using [dbdiagram.io](https://dbdiagram.io/d), learners decompose this into two c
 
 ### **3.3 Synthesis & Discussion**
 
-* **Instructor:** "In our solution, if the price of the iPhone goes up to $1200 next year, does the old order history change?"  
-* **Learner Goal:** Realize that while Normalization is good, sometimes we *denormalize* (copy data) like sold\_price to preserve historical accuracy.
+### Instructor Prompt
+
+> “Our tables are now fully normalised.
+> If the price of the iPhone increases to $1200 next year, what *should* happen to:
+>
+> 1. last year’s order totals, and
+> 2. our ability to quickly answer questions like *‘Total revenue by product last year’*?”
+
+---
+
+### Learner Goal
+
+Recognise that while normalisation ensures correctness, **real systems sometimes copy descriptive data** (denormalisation) to preserve historical accuracy and support fast analysis.
+
+---
+
+### Why This Happens in Practice
+
+**Normalisation stores each fact once to prevent anomalies and maintain data integrity.**
+However, normalized databases are optimized for data integrity and storage efficiency, **not for answering analytical questions quickly and at scale**.
+
+Business questions typically require:
+
+* Aggregations (SUM, COUNT, AVG)
+* Grouping by descriptive attributes
+* Large scans of historical data
+
+Fully normalised schemas require many joins, which increases query complexity and reduces performance.
+
+---
+
+### What Gets Denormalised (and What Does Not)
+
+* **Facts stay clean and numeric**
+
+  * e.g. quantity sold
+
+* **Descriptive attributes may be duplicated**, such as:
+
+  * `sold_price` in order line items
+  * product category or brand
+  * customer segment or region
+
+These attributes *could* be derived via joins, but are intentionally stored together.
+
+---
+
+### Why This Trade-Off Makes Sense
+
+Denormalising descriptive data:
+
+* Preserves historical truth
+* Reduces join complexity
+* Simplifies analytical queries
+* Improves performance for reporting
+
+Because these attributes change slowly, the risk of inconsistency is manageable.
+
+---
+
+### Key Takeaway
+
+> **Normalisation ensures correctness.
+> Controlled denormalisation supports historical accuracy and fast analysis.
+> Good data design matches structure to purpose.**
+
+---
 
 ## **🏁 Wrap Up (10 Mins)**
 
