@@ -269,13 +269,13 @@ Using [dbdiagram.io](https://dbdiagram.io/d), learners decompose this into two c
 
 ### Instructor Prompt
 
-> “Our tables are now fully normalised. Let’s explore the following situations:
+> Our tables are now fully normalised. But let’s explore the following situations:
 >
 > **Step 1 – Historical Accuracy:**
 > Imagine the iPhone’s price increases to $1200 next year.
 >
 > * What happens if we try to calculate last year’s revenue from our tables?
-> * How does full normalisation affect historical reporting?”
+> * How does full normalisation affect historical reporting?
 >
 > **Step 2 – Query Complexity:**
 > Assuming we **did store historical prices**, how easy is it to answer questions like ‘Total revenue by product last year’ using only fully normalised tables?
@@ -290,7 +290,7 @@ Understand the trade-offs of full normalisation:
 
    * Fully normalised tables store each fact in exactly one place.
    * Example: No duplicate customers, consistent foreign key references, each order linked to the correct items.
-   * **Why it matters:** Prevents data anomalies (like duplicate or mismatched records) and ensures entity relationships remain consistent.
+   * **Why it matters:** Ensures entity relationships remain consistent, and avoids wasting storage on redundant or repeated data.
 
 2. **Historical accuracy** ⚠️
 
@@ -315,7 +315,7 @@ Understand the trade-offs of full normalisation:
      * Reduces joins → faster queries.
      * Simplifies analytics and reporting.
 
-### Key Takeaway
+### Key Takeaways
 
 1. **Normalisation ensures structural correctness.**
 2. **Controlled denormalisation preserves history and improves performance.**
