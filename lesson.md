@@ -286,34 +286,47 @@ Using [dbdiagram.io](https://dbdiagram.io/d), learners decompose this into two c
 
 Understand the trade-offs of full normalisation:
 
-1. **Structural correctness** ✅
+<details>
+<summary>1. Structural correctness ✅</summary>
 
-   * Fully normalised tables store each fact in exactly one place.
-   * Example: No duplicate customers, consistent foreign key references, each order linked to the correct items.
-   * **Why it matters:** Ensures entity relationships remain consistent, and avoids wasting storage on redundant or repeated data.
+* Fully normalised tables store each fact in exactly one place.
+* Example: No duplicate customers, consistent foreign key references, each order linked to the correct items.
+* **Why it matters:** Ensures entity relationships remain consistent, and avoids wasting storage on redundant or repeated data.
 
-2. **Historical accuracy** ⚠️
+</details>
 
-   * Fully normalised tables reference **current descriptive data**.
-   * Updating `ItemPrice` in the `Items` table changes join results, so past revenues can appear wrong.
-   * **Example:** Joining `Orders → OrderLineItems → Items` today gives $1200 for last year’s iPhone, even though it was sold for $1000.
+<details>
+<summary>2. Historical accuracy ⚠️</summary>
 
-3. **Query efficiency** ⚠️
+* Fully normalised tables reference **current descriptive data**.
+* Updating `ItemPrice` in the `Items` table changes join results, so past revenues can appear wrong.
+* **Example:** Joining `Orders → OrderLineItems → Items` today gives $1200 for last year’s iPhone, even though it was sold for $1000.
 
-   * Analytical questions often require joining multiple tables.
-   * **Example:** To calculate “total revenue by product last year” (assuming historical prices are stored), we need to join `Orders → OrderLineItems → Items` for every row.
-   * Large datasets + multiple joins → slower queries and more complex SQL.
+</details>
 
-4. **Controlled denormalisation**
+<details>
+<summary>3. Query efficiency ⚠️</summary>
 
-   * To solve these practical issues, systems often **store slowly changing descriptive data directly in transactions**:
+* Analytical questions often require joining multiple tables.
+* **Example:** To calculate “total revenue by product last year” (assuming historical prices are stored), we need to join `Orders → OrderLineItems → Items` for every row.
+* Large datasets + multiple joins → slower queries and more complex SQL.
 
-     * Example: `sold_price`, `Product category`, `Brand` at time of sale.
-   * **Benefits:**
+</details>
 
-     * Preserves historical revenue and product context.
-     * Reduces joins → faster queries.
-     * Simplifies analytics and reporting.
+<details>
+<summary>4. Controlled denormalisation</summary>
+
+* To solve these practical issues, systems often **store slowly changing descriptive data directly in transactions**:
+
+  * Example: `sold_price`, `Product category`, `Brand` at time of sale.
+
+* **Benefits:**
+
+  * Preserves historical revenue and product context.
+  * Reduces joins → faster queries.
+  * Simplifies analytics and reporting.
+
+</details>
 
 ### Key Takeaways
 
