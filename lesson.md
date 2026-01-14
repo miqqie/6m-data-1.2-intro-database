@@ -269,78 +269,58 @@ Using [dbdiagram.io](https://dbdiagram.io/d), learners decompose this into two c
 
 ### Instructor Prompt
 
-> “Our tables are now fully normalised.
-> We’ve designed a system that is excellent for correctness and avoids duplication.
-> Let’s imagine a business question: If the price of the iPhone increases to $1200 next year, what *should* happen to:
+> “Our tables are now fully normalised. Let’s explore the following situations:
 >
-> 1. last year’s order totals, and
-> 2. our ability to quickly answer questions like *‘Total revenue by product last year’*?”
-
----
+> **Step 1 – Historical Accuracy:**
+> Imagine the iPhone’s price increases to $1200 next year.
+>
+> * What happens if we try to calculate last year’s revenue from our tables?
+> * How does full normalisation affect historical reporting?”
+>
+> **Step 2 – Query Complexity:**
+> Assuming we **did store historical prices**, how easy is it to answer questions like ‘Total revenue by product last year’ using only fully normalised tables?
+>
+> * Consider the joins you would need and how this scales with large datasets.
 
 ### Learner Goal
 
-Recognise that while **normalisation ensures correctness**, real-world systems sometimes **selectively copy descriptive data** (denormalisation) to:
+Understand the trade-offs of full normalisation:
 
-* Preserve historical accuracy
-* Support fast, large-scale analytical queries
+1. **Structural correctness** ✅
 
----
+   * Fully normalised tables store each fact in exactly one place.
+   * Example: No duplicate customers, consistent foreign key references, each order linked to the correct items.
+   * **Why it matters:** Prevents data anomalies (like duplicate or mismatched records) and ensures entity relationships remain consistent.
 
-### Why Denormalisation Happens in Practice
+2. **Historical accuracy** ⚠️
 
-Normalisation stores each fact once to prevent anomalies and maintain data integrity.
+   * Fully normalised tables reference **current descriptive data**.
+   * Updating `ItemPrice` in the `Items` table changes join results, so past revenues can appear wrong.
+   * **Example:** Joining `Orders → OrderLineItems → Items` today gives $1200 for last year’s iPhone, even though it was sold for $1000.
 
-However, **normalized databases are optimized for data integrity and storage efficiency, not for answering analytical questions quickly at scale**.
+3. **Query efficiency** ⚠️
 
-Business questions often require:
+   * Analytical questions often require joining multiple tables.
+   * **Example:** To calculate “total revenue by product last year” (assuming historical prices are stored), we need to join `Orders → OrderLineItems → Items` for every row.
+   * Large datasets + multiple joins → slower queries and more complex SQL.
 
-* Aggregations (SUM, COUNT, AVG)
-* Grouping by descriptive attributes (e.g., product category, brand, customer segment)
-* Large scans of historical data
+4. **Controlled denormalisation**
 
-Fully normalised schemas require many joins, which increases query complexity and reduces performance.
+   * To solve these practical issues, systems often **store slowly changing descriptive data directly in transactions**:
 
----
+     * Example: `sold_price`, `Product category`, `Brand` at time of sale.
+   * **Benefits:**
 
-### What Gets Denormalised (and What Does Not)
-
-* **Facts stay clean and numeric**
-
-  * e.g., quantity sold, transaction totals
-
-* **Descriptive attributes may be duplicated**, such as:
-
-  * `sold_price` in order line items (preserves historical price)
-  * Product category or brand
-  * Customer segment or region
-
-These attributes could be derived via joins, but are intentionally stored together for efficiency.
-
-> **Instructor note:** Clarify that `current_price` is the reference price today, while `sold_price` is the historical fact of the transaction. This resolves any confusion about price dependencies.
-
----
-
-### Why This Trade-Off Makes Sense
-
-Denormalising descriptive data:
-
-* Preserves historical truth
-* Reduces join complexity
-* Simplifies analytical queries
-* Improves performance for reporting
-
-Because these attributes **change slowly**, the risk of inconsistency is manageable.
-
----
+     * Preserves historical revenue and product context.
+     * Reduces joins → faster queries.
+     * Simplifies analytics and reporting.
 
 ### Key Takeaway
 
-> **Normalisation ensures correctness.**
-> **Controlled denormalisation supports historical accuracy and fast analysis.**
-> Good data design **matches structure to purpose**, balancing integrity and usability.
+1. **Normalisation ensures structural correctness.**
+2. **Controlled denormalisation preserves history and improves performance.**
+3. **Good data design balances integrity with practical business needs.**
 
----
 
 ## **🏁 Wrap Up (10 Mins)**
 
